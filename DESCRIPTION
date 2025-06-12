@@ -1,14 +1,17 @@
 Package: dmlpanel
-Title: What the Package Does (One Line, Title Case)
+Title: DML for High-Dimensional Linear Panel Data Models in R
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Facundo", "Argañaraz", , "facundo.arganaraz@sciencespo.fr", role = c("aut", "cre"))
+Description: This is an implementation of Debiased Machine Learning (DML) for high-dimensional linear panel data models with common parameters and random coefficients, as introduced by "Debiased Machine Learning Inference for Functionals of Unoberseved Heterogeneity", by Argañaraz, F., and Escanciano, J.C., Argañaraz and Escanciano (2025). 
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 URL: https://github.com/argafacu/dmlpanel
 BugReports: https://github.com/argafacu/dmlpanel/issues
+Imports:
+    MASS
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
