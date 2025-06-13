@@ -121,13 +121,16 @@ You can install the development version of `dmlpanel` from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("argafacu/dmlpanel")
+# install devtools if not installed
+install.packages("devtools")
+# install dmlpanel from github
+devtools::install_github("argafacu/dmlpanel")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to solve a common problem
+such as
 
 ``` r
 library(dmlpanel)
