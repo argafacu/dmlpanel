@@ -121,18 +121,87 @@ You can install the development version of `dmlpanel` from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install devtools if not installed
-install.packages("devtools")
+# install pak if not installed
+install.packages("pak")
 # install dmlpanel from github
-devtools::install_github("argafacu/dmlpanel")
+pak::pak("argafacu/dmlpanel")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem
-such as
+This is a basic example of how to use this function. Suppose that $`V`$
+has two columns, that is, we will allow two regressors to have random
+coefficients, say $`\alpha_{1i}`$ and $`\alpha_{2i}`$. Let one of these
+be a random intercept. We will assume that $`\varepsilon_i`$ are idd and
+homoscedastic. The following example will lead to robust inference for
+first moments of the entries of $`\alpha_i`$, its variances, and
+covariance. In addition, it will report point estimates and standard
+errors for each component in $`\beta_0[1:8]`$.
 
-``` r
-library(dmlpanel)
-## basic example code
-```
+    library(dmlpanel); library(fda)
+    # Upload the data ---------------------------------------------------------
+
+    df <- birthpanel
+    TotT <- 3 #There are three periods in this data
+
+
+    ID <- df$id #Repeated id's
+    y <- df$birthwght #outcome variable 
+
+    v <- cbind(df$smoke, matrix(1, nrow = nrow(z), ncol = 1)) #regressors with random coefficents. Note that we allow for a random intercept. 
+
+
+    z <- cbind(df$male, df$age, df$agesq, df$kessner2, df$kessner3, 
+               df$novisit, df$visit2, df$visit3)
+
+
+    basis <- create.bspline.basis(rangeval=c(min(df$age),max(df$age)), nbasis=5, norder=4,
+                                  breaks=NULL, dropind=NULL, quadvals=NULL, values=NULL,
+                                  basisvalues=NULL)
+
+
+    agesplines <- eval.basis(as.vector(df$age), basis, Lfdobj=0, returnMatrix=FALSE) #Create a flexible basis for age
+
+    z <- cbind(df$male, df$age, df$agesq, df$kessner2, df$kessner3, 
+               df$novisit, df$visit2, df$visit3)
+    zexpand <- cbind(z, agesplines)
+    w <- zexpand
+    w <- round(w,digits =2) #Regressors with common coefficients
+
+    Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
+
+    Results$FM #View inferences for first moments of alpha
+    Results$SM #View inferences for variances of alpha
+    Results$Cov #View inference for covariance among the components of alpha
+    Results$CP #View inferences for beta_0[1:8]
+
+Suppose instead that we want to model the conditional var-cov of errors
+differently. We could
+
+    S2 <- matrix(c(
+      1, 0, 0, 0, 1, 0, 0, 0, 1,
+      0, 0, 0, 0, 1, 0, 0, 0, 2
+    ), nrow = 2, byrow = TRUE)
+
+    S2 <- t(S2)
+
+    Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=S2, TotT=TotT,  L = 5, re=0.1, indreg=8)
+
+    Results$FM #View inferences for first moments of alpha
+    Results$SM #View inferences for variances of alpha
+    Results$Cov #View inference for covariance among the components of alpha
+    Results$CP #View inferences for beta_0[1:8]
+
+The idea is the same for user specified matrices $`C_1`$ and $`C_2`$.
+For example,
+
+    C2 <- matrix(0,ncol(v),1)
+    C2[1,1] <- 1
+    C2[2,1] <- 2
+
+    Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=C2, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
+
+    Results$FM #View inferences for E[C_2'alpha] first moments of alpha
+    Results$SM #View inferences for variances of alpha
+    Results$Cov #View inference for covariance among the components of alpha
+    Results$CP #View inferences for beta_0[1:8]
