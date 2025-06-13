@@ -109,7 +109,8 @@ zexpand <- cbind(z, agesplines)
 w <- zexpand
 w <- round(w,digits =2) #Regressors with common coefficients
 
-Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
+Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, 
+                    S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
 
 Results$FM #View inferences for first moments of alpha
 Results$SM #View inferences for variances of alpha
@@ -126,7 +127,8 @@ S2 <- matrix(c(
 
 S2 <- t(S2)
 
-Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=S2, TotT=TotT,  L = 5, re=0.1, indreg=8)
+Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, 
+                    S2=S2, TotT=TotT,  L = 5, re=0.1, indreg=8)
 
 Results$FM #View inferences for first moments of alpha
 Results$SM #View inferences for variances of alpha
@@ -141,7 +143,8 @@ C2 <- matrix(0,ncol(v),1)
 C2[1,1] <- 1
 C2[2,1] <- 2
 
-Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=C2, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
+Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=C2, Omega=NULL, 
+                    S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
 
 Results$FM #View inferences for E[C_2'alpha] first moments of alpha
 Results$SM #View inferences for variances of alpha

@@ -183,33 +183,34 @@ zexpand <- cbind(z, agesplines)
 w <- zexpand
 w <- round(w,digits =2) #Regressors with common coefficients
 
-Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
+Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, 
+                    S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
 
 Results$FM #View inferences for first moments of alpha
 #>        Est.   S.e.
-#> V.1 -161.91  16.89
-#> V.2 3481.11 421.62
+#> V.1 -160.82  16.97
+#> V.2 3501.61 422.94
 Results$SM #View inferences for variances of alpha
-#>         Est.     S.e.
-#> V.1 107501.1  21156.5
-#> V.2 108584.0 107890.1
+#>         Est.      S.e.
+#> V.1 108604.8  21146.55
+#> V.2 122731.4 133842.33
 Results$Cov #View inference for covariance among the components of alpha
 #> $v1v2
 #> $v1v2$Est.
-#> [1] -62356.75
+#> [1] -56924.83
 #> 
 #> $v1v2$S.e.
-#> [1] 14710.54
+#> [1] 14571.58
 Results$CP #View inferences for beta_0[1:8]
 #>       Est.  S.e.
-#> W.1 131.93 22.93
-#> W.2   7.75 32.40
-#> W.3  -0.12  0.57
-#> W.4 -11.30 17.09
-#> W.5 -49.99 40.77
-#> W.6  -3.40  7.07
-#> W.7   5.83 19.46
-#> W.8   5.03 23.94
+#> W.1 132.40 23.10
+#> W.2  11.78 32.67
+#> W.3  -0.22  0.57
+#> W.4 -11.11 17.21
+#> W.5 -45.30 39.55
+#> W.6  -1.07  6.92
+#> W.7   3.48 19.74
+#> W.8  -0.75 23.65
 ```
 
 Suppose instead that we want to model the conditional var-cov of errors
@@ -223,33 +224,34 @@ S2 <- matrix(c(
 
 S2 <- t(S2)
 
-Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=S2, TotT=TotT,  L = 5, re=0.1, indreg=8)
+Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, 
+                    S2=S2, TotT=TotT,  L = 5, re=0.1, indreg=8)
 
 Results$FM #View inferences for first moments of alpha
 #>        Est.   S.e.
-#> V.1 -161.20  16.92
-#> V.2 3449.98 422.31
+#> V.1 -161.29  16.96
+#> V.2 3409.05 418.97
 Results$SM #View inferences for variances of alpha
 #>         Est.     S.e.
-#> V.1 116118.9 28033.51
-#> V.2 129231.2 75740.39
+#> V.1 108907.0 27564.13
+#> V.2 161808.4 67554.14
 Results$Cov #View inference for covariance among the components of alpha
 #> $v1v2
 #> $v1v2$Est.
-#> [1] -55451.1
+#> [1] -63362.88
 #> 
 #> $v1v2$S.e.
-#> [1] 20042.04
+#> [1] 19921.58
 Results$CP #View inferences for beta_0[1:8]
 #>       Est.  S.e.
-#> W.1 130.68 23.02
-#> W.2   5.99 32.73
-#> W.3  -0.09  0.58
-#> W.4 -10.10 17.25
-#> W.5 -58.05 41.31
-#> W.6  -4.61  7.12
-#> W.7   1.77 19.48
-#> W.8   6.25 23.82
+#> W.1 130.04 23.00
+#> W.2   6.16 31.90
+#> W.3  -0.08  0.56
+#> W.4  -6.86 17.36
+#> W.5 -45.43 40.42
+#> W.6  -1.71  7.20
+#> W.7   7.85 19.52
+#> W.8   4.79 23.60
 ```
 
 The idea is the same for user specified matrices $`C_1`$ and $`C_2`$.
@@ -260,32 +262,33 @@ C2 <- matrix(0,ncol(v),1)
 C2[1,1] <- 1
 C2[2,1] <- 2
 
-Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=C2, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
+Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=C2, Omega=NULL, 
+                    S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
 
 Results$FM #View inferences for E[C_2'alpha] first moments of alpha
 #>         Est.   S.e.
-#> C2.1 6665.54 844.87
-#> V.1  -161.06  16.94
-#> V.2  3413.30 420.95
+#> C2.1 6722.26 843.80
+#> V.1  -161.31  16.90
+#> V.2  3441.79 420.44
 Results$SM #View inferences for variances of alpha
 #>          Est.     S.e.
-#> V.1 108018.94 21191.74
-#> V.2  84936.97 71969.41
+#> V.1 107168.02 21060.29
+#> V.2  66442.55 92892.95
 Results$Cov #View inference for covariance among the components of alpha
 #> $v1v2
 #> $v1v2$Est.
-#> [1] -53838.2
+#> [1] -54206
 #> 
 #> $v1v2$S.e.
-#> [1] 14648.7
+#> [1] 14721.84
 Results$CP #View inferences for beta_0[1:8]
 #>       Est.  S.e.
-#> W.1 130.86 23.09
-#> W.2   6.22 32.37
-#> W.3  -0.10  0.56
-#> W.4 -11.24 17.00
-#> W.5 -47.18 40.52
-#> W.6  -3.14  6.95
-#> W.7   4.99 19.59
-#> W.8   2.27 23.73
+#> W.1 127.78 23.26
+#> W.2   5.95 32.39
+#> W.3  -0.05  0.58
+#> W.4 -20.49 17.67
+#> W.5 -53.02 41.24
+#> W.6  -2.76  7.10
+#> W.7   8.98 19.68
+#> W.8   4.43 23.92
 ```
