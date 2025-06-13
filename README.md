@@ -138,70 +138,154 @@ first moments of the entries of $`\alpha_i`$, its variances, and
 covariance. In addition, it will report point estimates and standard
 errors for each component in $`\beta_0[1:8]`$.
 
-    library(dmlpanel); library(fda)
-    # Upload the data ---------------------------------------------------------
+``` r
+library(dmlpanel); library(fda)
+#> Loading required package: splines
+#> Loading required package: fds
+#> Loading required package: rainbow
+#> Loading required package: MASS
+#> Loading required package: pcaPP
+#> Loading required package: RCurl
+#> Loading required package: deSolve
+#> 
+#> Attaching package: 'fda'
+#> The following object is masked from 'package:graphics':
+#> 
+#>     matplot
+# Upload the data ---------------------------------------------------------
 
-    df <- birthpanel
-    TotT <- 3 #There are three periods in this data
+data("birthpanel", package = "dmlpanel")
+df <- birthpanel
+TotT <- 3 #There are three periods in this data
 
 
-    ID <- df$id #Repeated id's
-    y <- df$birthwght #outcome variable 
+ID <- df$id 
+unique_IDs <- unique(ID)
+ID2 <- match(ID, unique_IDs)
+ID <- ID2 #Repeated id's
 
-    v <- cbind(df$smoke, matrix(1, nrow = nrow(z), ncol = 1)) #regressors with random coefficents. Note that we allow for a random intercept. 
+y <- df$birthwght #outcome variable 
 
+z <- cbind(df$male, df$age, df$agesq, df$kessner2, df$kessner3, 
+           df$novisit, df$visit2, df$visit3)
 
-    z <- cbind(df$male, df$age, df$agesq, df$kessner2, df$kessner3, 
-               df$novisit, df$visit2, df$visit3)
-
-
-    basis <- create.bspline.basis(rangeval=c(min(df$age),max(df$age)), nbasis=5, norder=4,
-                                  breaks=NULL, dropind=NULL, quadvals=NULL, values=NULL,
-                                  basisvalues=NULL)
+v <- cbind(df$smoke, matrix(1, nrow = nrow(z), ncol = 1)) #regressors with random coefficents. Note that we allow for a random intercept. 
 
 
-    agesplines <- eval.basis(as.vector(df$age), basis, Lfdobj=0, returnMatrix=FALSE) #Create a flexible basis for age
+basis <- create.bspline.basis(rangeval=c(min(df$age),max(df$age)), nbasis=5, norder=4,
+                              breaks=NULL, dropind=NULL, quadvals=NULL, values=NULL,
+                              basisvalues=NULL)
 
-    z <- cbind(df$male, df$age, df$agesq, df$kessner2, df$kessner3, 
-               df$novisit, df$visit2, df$visit3)
-    zexpand <- cbind(z, agesplines)
-    w <- zexpand
-    w <- round(w,digits =2) #Regressors with common coefficients
 
-    Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
+agesplines <- eval.basis(as.vector(df$age), basis, Lfdobj=0, returnMatrix=FALSE) #Create a flexible basis for age
 
-    Results$FM #View inferences for first moments of alpha
-    Results$SM #View inferences for variances of alpha
-    Results$Cov #View inference for covariance among the components of alpha
-    Results$CP #View inferences for beta_0[1:8]
+zexpand <- cbind(z, agesplines)
+w <- zexpand
+w <- round(w,digits =2) #Regressors with common coefficients
+
+Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
+
+Results$FM #View inferences for first moments of alpha
+#>        Est.   S.e.
+#> V.1 -161.91  16.89
+#> V.2 3481.11 421.62
+Results$SM #View inferences for variances of alpha
+#>         Est.     S.e.
+#> V.1 107501.1  21156.5
+#> V.2 108584.0 107890.1
+Results$Cov #View inference for covariance among the components of alpha
+#> $v1v2
+#> $v1v2$Est.
+#> [1] -62356.75
+#> 
+#> $v1v2$S.e.
+#> [1] 14710.54
+Results$CP #View inferences for beta_0[1:8]
+#>       Est.  S.e.
+#> W.1 131.93 22.93
+#> W.2   7.75 32.40
+#> W.3  -0.12  0.57
+#> W.4 -11.30 17.09
+#> W.5 -49.99 40.77
+#> W.6  -3.40  7.07
+#> W.7   5.83 19.46
+#> W.8   5.03 23.94
+```
 
 Suppose instead that we want to model the conditional var-cov of errors
 differently. We could
 
-    S2 <- matrix(c(
-      1, 0, 0, 0, 1, 0, 0, 0, 1,
-      0, 0, 0, 0, 1, 0, 0, 0, 2
-    ), nrow = 2, byrow = TRUE)
+``` r
+S2 <- matrix(c(
+  1, 0, 0, 0, 1, 0, 0, 0, 1,
+  0, 0, 0, 0, 1, 0, 0, 0, 2
+), nrow = 2, byrow = TRUE)
 
-    S2 <- t(S2)
+S2 <- t(S2)
 
-    Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=S2, TotT=TotT,  L = 5, re=0.1, indreg=8)
+Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=NULL, Omega=NULL, S2=S2, TotT=TotT,  L = 5, re=0.1, indreg=8)
 
-    Results$FM #View inferences for first moments of alpha
-    Results$SM #View inferences for variances of alpha
-    Results$Cov #View inference for covariance among the components of alpha
-    Results$CP #View inferences for beta_0[1:8]
+Results$FM #View inferences for first moments of alpha
+#>        Est.   S.e.
+#> V.1 -161.20  16.92
+#> V.2 3449.98 422.31
+Results$SM #View inferences for variances of alpha
+#>         Est.     S.e.
+#> V.1 116118.9 28033.51
+#> V.2 129231.2 75740.39
+Results$Cov #View inference for covariance among the components of alpha
+#> $v1v2
+#> $v1v2$Est.
+#> [1] -55451.1
+#> 
+#> $v1v2$S.e.
+#> [1] 20042.04
+Results$CP #View inferences for beta_0[1:8]
+#>       Est.  S.e.
+#> W.1 130.68 23.02
+#> W.2   5.99 32.73
+#> W.3  -0.09  0.58
+#> W.4 -10.10 17.25
+#> W.5 -58.05 41.31
+#> W.6  -4.61  7.12
+#> W.7   1.77 19.48
+#> W.8   6.25 23.82
+```
 
 The idea is the same for user specified matrices $`C_1`$ and $`C_2`$.
 For example,
 
-    C2 <- matrix(0,ncol(v),1)
-    C2[1,1] <- 1
-    C2[2,1] <- 2
+``` r
+C2 <- matrix(0,ncol(v),1)
+C2[1,1] <- 1
+C2[2,1] <- 2
 
-    Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=C2, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
+Results <- dmlpanel(y=y,v=v,w=w,id=ID,C1=NULL,C2=C2, Omega=NULL, S2=NULL, TotT=TotT,  L = 5, re=0.1, indreg=8)
 
-    Results$FM #View inferences for E[C_2'alpha] first moments of alpha
-    Results$SM #View inferences for variances of alpha
-    Results$Cov #View inference for covariance among the components of alpha
-    Results$CP #View inferences for beta_0[1:8]
+Results$FM #View inferences for E[C_2'alpha] first moments of alpha
+#>         Est.   S.e.
+#> C2.1 6665.54 844.87
+#> V.1  -161.06  16.94
+#> V.2  3413.30 420.95
+Results$SM #View inferences for variances of alpha
+#>          Est.     S.e.
+#> V.1 108018.94 21191.74
+#> V.2  84936.97 71969.41
+Results$Cov #View inference for covariance among the components of alpha
+#> $v1v2
+#> $v1v2$Est.
+#> [1] -53838.2
+#> 
+#> $v1v2$S.e.
+#> [1] 14648.7
+Results$CP #View inferences for beta_0[1:8]
+#>       Est.  S.e.
+#> W.1 130.86 23.09
+#> W.2   6.22 32.37
+#> W.3  -0.10  0.56
+#> W.4 -11.24 17.00
+#> W.5 -47.18 40.52
+#> W.6  -3.14  6.95
+#> W.7   4.99 19.59
+#> W.8   2.27 23.73
+```
