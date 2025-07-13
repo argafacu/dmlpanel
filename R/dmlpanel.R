@@ -2732,7 +2732,7 @@ Resultsbeta <- rbind(Resultsbeta1,Resultsbeta2)
 
       for(j1 in I[[l]]){
 
-        gbetalr[[j1]] <- Gammamatbeta[[l]]%*%t(Wmat[[j1]])%*%Qmat[[j1]]%*%(ymat[[j1]] - Wmat[[j1]]%*%C1%*%MASS::ginv(t(C1)%*%C1)*psibeta0 - Wmat[[j1]]%*%QC1%*%betalasso[[l]])
+        gbetalr[[j1]] <- Gammamatbeta[[l]]%*%t(Wmat[[j1]])%*%Qmat[[j1]]%*%(ymat[[j1]]  - Wmat[[j1]]%*%QC1%*%betalasso[[l]]) - psibeta0
       }
 
     }
@@ -2762,7 +2762,7 @@ Resultsbeta <- rbind(Resultsbeta1,Resultsbeta2)
 
       for(j1 in I[[l]]){
 
-        gbetaestlr[[j1]] <- Gammamatbeta[[l]]%*%t(Wmat[[j1]])%*%Qmat[[j1]]%*%(ymat[[j1]] - Wmat[[j1]]%*%C1%*%MASS::ginv(t(C1)%*%C1)*as.numeric(psibetaest[[l]]) - Wmat[[j1]]%*%QC1%*%betalasso[[l]])
+        gbetaestlr[[j1]] <- Gammamatbeta[[l]]%*%t(Wmat[[j1]])%*%Qmat[[j1]]%*%(ymat[[j1]] - Wmat[[j1]]%*%QC1%*%betalasso[[l]]) - as.numeric(psibetaest[[l]])
       }
 
     }
