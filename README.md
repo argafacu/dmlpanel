@@ -121,10 +121,8 @@ You can install the development version of `dmlpanel` from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install pak if not installed
-install.packages("pak")
-# install dmlpanel from github
-pak::pak("argafacu/dmlpanel")
+install.packages("devtools")
+devtools::install_github("argafacu/dmlpanel")
 ```
 
 ## Example
@@ -292,3 +290,4 @@ Results$CP #View inferences for beta_0[1:8]
 #> W.7   8.98 19.68
 #> W.8   4.43 23.92
 ```
+
