@@ -256,8 +256,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
     seest <- sqrt(diag(varest))/sqrt(n)
 
 
-    Resultsfm1[, 1] <- round(meangfmlr,2) #Matrix of results
-    Resultsfm1[, 2] <- round(seest,2) #Matrix of results
+    Resultsfm1[, 1] <- round(meangfmlr,3) #Matrix of results
+    Resultsfm1[, 2] <- round(seest,3) #Matrix of results
 
     colnames(Resultsfm1) <- c("Est.", "S.e.")
     rownames(Resultsfm1) <- paste0("C2.", 1:ncol(C2))
@@ -368,8 +368,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
     seest <- sqrt(diag(varest))/sqrt(n)
 
     Resultsfm2 <- matrix(NA,ncol(v),2)
-    Resultsfm2[,1] <- round(meangfmlr,2)
-    Resultsfm2[,2] <- round(seest,2)
+    Resultsfm2[,1] <- round(meangfmlr,3)
+    Resultsfm2[,2] <- round(seest,3)
 
     colnames(Resultsfm2) <- c("Est.", "S.e.")
     rownames(Resultsfm2) <- paste0("V.", 1:ncol(v))
@@ -599,8 +599,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
     seest <- sqrt(diag(varest))/sqrt(n)
 
 
-    Resultsfm2[,1] <- round(meangfmlr,2) #Matrix of results
-    Resultsfm2[,2] <- round(seest,2)     #Matrix of results
+    Resultsfm2[,1] <- round(meangfmlr,3) #Matrix of results
+    Resultsfm2[,2] <- round(seest,3)     #Matrix of results
 
     colnames(Resultsfm2) <- c("Est.", "S.e.")
     rownames(Resultsfm2) <- paste0("V.", 1:ncol(v))
@@ -813,8 +813,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
 
       seest <- sqrt(varest)/sqrt(n)
 
-      Resultssm1[1,1] <- round(mean(unlist(gsmlr)),2) #Matrix of results
-      Resultssm1[1,2] <- round(seest,2)     #Matrix of results
+      Resultssm1[1,1] <- round(mean(unlist(gsmlr)),3) #Matrix of results
+      Resultssm1[1,2] <- round(seest,3)     #Matrix of results
 
       colnames(Resultssm1) <- c("Est.", "S.e.")
       rownames(Resultssm1) <- "Omega.1"
@@ -979,8 +979,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
 
         seest <- sqrt(var)/sqrt(n)
 
-        Resultssm2[uh,1] <- round(est,2) #Matrix of results
-        Resultssm2[uh,2] <- round(seest,2)     #Matrix of results
+        Resultssm2[uh,1] <- round(est,3) #Matrix of results
+        Resultssm2[uh,2] <- round(seest,3)     #Matrix of results
 
       }
 
@@ -1351,8 +1351,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
 
         seest <- sqrt(var)/sqrt(n)
 
-        Resultssm[uh,1] <- round(est,2)       #Matrix of results
-        Resultssm[uh,2] <- round(seest,2)     #Matrix of results
+        Resultssm[uh,1] <- round(est,3)       #Matrix of results
+        Resultssm[uh,2] <- round(seest,3)     #Matrix of results
 
       }
 
@@ -1742,8 +1742,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
 
       seest <- sqrt(varest)/sqrt(n)
 
-      Resultssm1[1,1] <- round(mean(unlist(gsmlr)),2) #Matrix of results
-      Resultssm1[1,2] <- round(seest,2)     #Matrix of results
+      Resultssm1[1,1] <- round(mean(unlist(gsmlr)),3) #Matrix of results
+      Resultssm1[1,2] <- round(seest,3)     #Matrix of results
 
       colnames(Resultssm1) <- c("Est.", "S.e.")
       rownames(Resultssm1) <- "Omega.1"
@@ -1909,8 +1909,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
 
         seest <- sqrt(var)/sqrt(n)
 
-        Resultssm2[uh,1] <- round(est,2) #Matrix of results
-        Resultssm2[uh,2] <- round(seest,2)     #Matrix of results
+        Resultssm2[uh,1] <- round(est,3) #Matrix of results
+        Resultssm2[uh,2] <- round(seest,3)     #Matrix of results
 
       }
 
@@ -2286,8 +2286,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
 
         seest <- sqrt(var)/sqrt(n)
 
-        Resultssm[uh,1] <- round(est,2)       #Matrix of results
-        Resultssm[uh,2] <- round(seest,2)     #Matrix of results
+        Resultssm[uh,1] <- round(est,3)       #Matrix of results
+        Resultssm[uh,2] <- round(seest,3)     #Matrix of results
 
       }
 
@@ -2574,8 +2574,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
     seest <- sqrt(diag(varest))/sqrt(n)
 
 
-    Resultsbeta1[,1] <- round(est,2)
-    Resultsbeta1[,2] <- round(seest,2)
+    Resultsbeta1[,1] <- round(est,3)
+    Resultsbeta1[,2] <- round(seest,3)
 
     colnames(Resultsbeta1) <- c("Est.", "S.e.")
     rownames(Resultsbeta1) <- paste0("C1.", 1:ncol(C1))
@@ -2675,8 +2675,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
       seest <- sqrt(varest)/sqrt(n)
 
 
-      Resultsbeta2[regre,1] <- round(est,2)
-      Resultsbeta2[regre,2] <- round(seest,2)
+      Resultsbeta2[regre,1] <- round(est,3)
+      Resultsbeta2[regre,2] <- round(seest,3)
     }
 
     colnames(Resultsbeta2) <- c("Est.", "S.e.")
@@ -2781,8 +2781,8 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
       seest <- sqrt(varest)/sqrt(n)
 
 
-      Resultsbeta[regre,1] <- round(est,2)
-      Resultsbeta[regre,2] <- round(seest,2)
+      Resultsbeta[regre,1] <- round(est,3)
+      Resultsbeta[regre,2] <- round(seest,3)
     }
 
     colnames(Resultsbeta) <- c("Est.", "S.e.")
