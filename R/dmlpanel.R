@@ -23,7 +23,7 @@ dmlpanel <- function(y,v,w,id,C1=NULL,C2=NULL, Omega=NULL, S2=NULL, TotT,  L = 5
 
   unique_IDs <- unique(id)
   ID2 <- match(id, unique_IDs)
-  id <- ID2
+  ID <- ID2
 
   n <- length(unique(id)) # Identify the number of cross-sectional units
   foldid <- rep.int(1:L, times = ceiling(n/L))[sample.int(n)] #Randomly split the data
